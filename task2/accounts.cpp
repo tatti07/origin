@@ -9,7 +9,7 @@ int main() {
     std::cout << "Введите номер счёта: ";
     std::cin >> acc.number;
     std::cout << "Введите имя владельца: ";
-    std::cin.ignore();              // убираем один символ '\n' после числа
+    std::cin.ignore();              
     std::getline(std::cin, acc.owner);
     std::cout << "Введите баланс: ";
     std::cin >> acc.balance;
