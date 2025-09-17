@@ -6,10 +6,10 @@ private:
     double num2 = 0.0;
 
 public:
-    // Сеттеры: запрещаем ноль, возвращаем true/false
+    
     bool set_num1(double num1) {
     if (num1 == 0.0) return false;
-    this->num1 = num1;   // подчеркнутое использование this
+    this->num1 = num1;   
     return true;
 }
 bool set_num2(double num2) {
@@ -18,12 +18,12 @@ bool set_num2(double num2) {
     return true;
 }
 
-    // Операции
+    
     double add() const            { return num1 + num2; }
     double multiply() const       { return num1 * num2; }
     double subtract_1_2() const   { return num1 - num2; }
     double subtract_2_1() const   { return num2 - num1; }
-    double divide_1_2() const     { return num1 / num2; } // ноль не пройдет из-за сеттеров
+    double divide_1_2() const     { return num1 / num2; } 
     double divide_2_1() const     { return num2 / num1; }
 };
 
@@ -39,7 +39,7 @@ int main() {
         double b;
         std::cin >> b;
 
-        // защита от нечислового ввода
+        
         if (!std::cin) {
             std::cin.clear();
             std::cin.ignore(10000, '\n');
@@ -47,7 +47,7 @@ int main() {
             continue;
         }
 
-        // запрещаем нули — как в примере из задания
+        
         if (!c.set_num1(a) || !c.set_num2(b)) {
             std::cout << "Неверный ввод!\n";
             continue;
