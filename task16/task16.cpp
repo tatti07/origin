@@ -1,30 +1,39 @@
 ﻿#include <iostream>
 #include <string>
-#include <io.h>
-#include <fcntl.h>
+#include <stdexcept>
 
-struct bad_length {};
+
+
+int function(const std::string& s, int forbidden_length) {
+    int len = static_cast<int>(s.size());
+    if (len == forbidden_length) {
+        throw std::invalid_argument("forbidden length");
+    }
+    return len;
+}
 
 int main() {
-    _setmode(_fileno(stdout), _O_U16TEXT);
-    _setmode(_fileno(stdin), _O_U16TEXT);
-
+    
+    std::cout << "Enter forbidden length: ";
     int forbidden = 0;
-    std::wcout << L"Введите запрещённую длину: ";
-    std::wcin >> forbidden;
+    if (!(std::cin >> forbidden)) return 0;
 
     while (true) {
-        std::wcout << L"Введите слово: ";
-        std::wstring word;
-        if (!(std::wcin >> word)) break;
+        std::cout << "Enter a word: ";
+        std::string word;
+        if (!(std::cin >> word)) break;            
 
         try {
-            int len = static_cast<int>(word.size());
-            if (len == forbidden) throw bad_length{};
-            std::wcout << L"Длина слова \"" << word << L"\" равна " << len << L"\n";
+            int len = function(word, forbidden);   
+            std::cout << "Length of \"" << word << "\" is " << len << "\n";
         }
-        catch (const bad_length&) {
-            std::wcout << L"Вы ввели слово запрещённой длины! До свидания\n";
+        catch (const std::invalid_argument& e) {
+    std::cout << "Error: " << e.what() << "\n";
+    std::cout << "You entered a word of forbidden length. Bye!\n";
+    break;
+}
+        catch (const std::exception& e) {          
+            std::cout << "Unexpected error: " << e.what() << "\n";
             break;
         }
     }
