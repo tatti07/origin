@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 
-
 class Figure {
 protected:
     std::string name;
@@ -13,10 +12,9 @@ public:
 
     const std::string& get_name() const { return name; }
 
-    
+    // оставляем как было
     virtual bool check() const { return sides_count == 0; }
 
-    
     virtual void print_info() const {
         std::cout << get_name() << ":\n";
         std::cout << (check() ? "Правильная" : "Неправильная") << '\n';
@@ -24,17 +22,15 @@ public:
     }
 };
 
-
 class Triangle : public Figure {
 protected:
     int a{}, b{}, c{};
-    int A{}, B{}, C{}; 
+    int A{}, B{}, C{};
 
 public:
     Triangle(int a_, int b_, int c_, int A_, int B_, int C_)
         : Figure("Треугольник", 3), a(a_), b(b_), c(c_), A(A_), B(B_), C(C_) {}
 
-    
     bool check() const override {
         return sides_count == 3 && (A + B + C == 180);
     }
@@ -46,10 +42,8 @@ public:
     }
 };
 
-
 class RightTriangle : public Triangle {
 public:
-    
     RightTriangle(int a_, int b_, int c_, int A_, int B_)
         : Triangle(a_, b_, c_, A_, B_, 90) {
         name = "Прямоугольный треугольник";
@@ -72,7 +66,6 @@ public:
     }
 };
 
-
 class EquilateralTriangle : public Triangle {
 public:
     explicit EquilateralTriangle(int side)
@@ -87,7 +80,6 @@ public:
     }
 };
 
-
 class Quadrangle : public Figure {
 protected:
     int a{}, b{}, c{}, d{};
@@ -100,7 +92,6 @@ public:
           a(a_), b(b_), c(c_), d(d_),
           A(A_), B(B_), C(C_), D(D_) {}
 
-    
     bool check() const override {
         return sides_count == 4 && (A + B + C + D == 360);
     }
@@ -113,7 +104,6 @@ public:
                   << " C=" << C << " D=" << D << '\n';
     }
 };
-
 
 class Rectangle : public Quadrangle {
 public:
@@ -129,7 +119,6 @@ public:
     }
 };
 
-
 class Square : public Rectangle {
 public:
     explicit Square(int side) : Rectangle(side, side) {
@@ -137,12 +126,10 @@ public:
     }
 
     bool check() const override {
-        
-        return Rectangle::check() && (/* a=b=c=d */ true);
-        
+        // правка №1
+        return Rectangle::check() && (a == b && b == c && c == d);
     }
 };
-
 
 class Parallelogram : public Quadrangle {
 public:
@@ -158,7 +145,6 @@ public:
     }
 };
 
-
 class Rhombus : public Parallelogram {
 public:
     Rhombus(int side, int A_, int B_)
@@ -167,11 +153,10 @@ public:
     }
 
     bool check() const override {
-        return Parallelogram::check()
-            && (/* a=b=c=d */ true);
+        // правка №2
+        return Parallelogram::check() && (a == b && b == c && c == d);
     }
 };
-
 
 void print_info(const Figure* f) {
     f->print_info();
@@ -179,22 +164,19 @@ void print_info(const Figure* f) {
 }
 
 int main() {
-    
     Figure* f0 = new Figure("Фигура", 0);
 
-    
-    Triangle           t (10, 20, 30, 50, 60, 70); 
-    RightTriangle      rt_bad (10, 20, 30, 50, 60); 
-    RightTriangle      rt_ok  (10, 20, 30, 50, 40); 
-    IsoscelesTriangle  it (10, 20, 50, 60);         
-    EquilateralTriangle et (30);                    
+    Triangle           t (10, 20, 30, 50, 60, 70);
+    RightTriangle      rt_bad (10, 20, 30, 50, 60);
+    RightTriangle      rt_ok  (10, 20, 30, 50, 40);
+    IsoscelesTriangle  it (10, 20, 50, 60);
+    EquilateralTriangle et (30);
 
-    
-    Quadrangle        q_bad(10, 20, 30, 40, 50, 60, 70, 80); 
-    Rectangle         r(10, 20);                             
-    Square            s(20);                                  
-    Parallelogram     p(20, 30, 80, 40);                      
-    Rhombus           rh(30, 80, 40);                         
+    Quadrangle        q_bad(10, 20, 30, 40, 50, 60, 70, 80);
+    Rectangle         r(10, 20);
+    Square            s(20);
+    Parallelogram     p(20, 30, 80, 40);
+    Rhombus           rh(30, 80, 40);
 
     print_info(f0);
     print_info(&t);
